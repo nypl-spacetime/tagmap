@@ -18,14 +18,6 @@ export default function createRoutes(store) {
 
   return [
     {
-      path: '/intro',
-      name: 'intro',
-      getComponent(nextState, cb) {
-        System.import('containers/IntroPage')
-          .then(loadModule(cb))
-          .catch(errorLoading);
-      }
-    }, {
       path: '/about',
       name: 'about',
       getComponent(nextState, cb) {
@@ -45,7 +37,7 @@ export default function createRoutes(store) {
       path: '*',
       name: 'catchall',
       getComponent(nextState, cb) {
-        System.import('containers/IntroPage')
+        System.import('containers/HomePage')
           .then(loadModule(cb))
           .catch(errorLoading);
       }

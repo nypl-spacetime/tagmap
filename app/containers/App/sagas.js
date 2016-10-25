@@ -8,8 +8,6 @@ import { take, call, put, select } from 'redux-saga/effects';
 import { push, replace } from 'react-router-redux';
 
 import {
-  LOAD_REPOS,
-  LOAD_COLLECTIONS,
   LOAD_OAUTH,
   LOAD_OAUTH_SUCCESS,
   LOAD_ITEM,
@@ -19,32 +17,32 @@ import {
   LOG_OUT,
   LOG_OUT_SUCCESS,
 
-  NEXT_STEP,
-
   SUBMIT_STEP,
   SUBMIT_STEP_SUCCESS,
   SKIP_STEP,
-  SKIP_STEP_SUCCESS
+  SKIP_STEP_SUCCESS,
+
+  GEOCODE,
+  REVERSE_GEOCODE
 } from 'containers/App/constants';
 
 import {
   loadItem,
   itemLoaded, itemLoadingError,
-  collectionsLoaded, collectionsLoadingError,
   stepSubmitted, stepSubmitError,
   stepSkipped, stepSkipError,
   loadOAuth, oauthLoaded, oauthLoadingError,
   submissionsLoaded, submissionsLoadingError,
-  reposLoaded, repoLoadingError,
-  logOutSuccess, logOutError
+  logOutSuccess, logOutError,
+
+  geocodeSuccess, geocodeError,
+  reverseGeocodeSuccess, reverseGeocodeError
 } from 'containers/App/actions';
 
 import request from 'utils/request';
 
 import {
-  selectItem,
-  selectCurrentStep,
-  selectCurrentStepIndex,
+  selectItem
 } from 'containers/App/selectors';
 
 // Bootstrap sagas
@@ -53,12 +51,13 @@ export default [
   setRoute,
   getSubmissions,
   getItem,
-  getCollections,
   getOAuth,
   submitStep,
   skipStep,
   getLogOut,
-  getLogOutSuccess // TODO: this is not the right way!?
+  getLogOutSuccess, // TODO: this is not the right way!?
+  geocode,
+  reverseGeocode
 ];
 
 const API_URL = __CONFIG__.api.url
@@ -133,20 +132,12 @@ function* requestData(constant, getUrl, options) {
 
 export function* setRoute() {
   while (true) {
-    // yield take([SUBMIT_STEP_SUCCESS, SKIP_STEP_SUCCESS, NEXT_STEP, LOAD_ITEM_SUCCESS]);
     yield take(LOAD_ITEM_SUCCESS);
 
-    // const stepIndex = yield select(selectCurrentStepIndex());
     const item = yield select(selectItem());
 
     if (item) {
       var path = `/${item.id}`
-
-      // if (stepIndex > 0) {
-      //   const step = yield select(selectCurrentStep());
-      //   path += `/${step}`
-      // }
-
       yield(put(replace(path)))
     }
   }
@@ -154,15 +145,46 @@ export function* setRoute() {
 
 export function* resetItem() {
   while (true) {
-    yield take([SUBMIT_STEP_SUCCESS, SKIP_STEP_SUCCESS, NEXT_STEP]);
+    yield take([SUBMIT_STEP_SUCCESS, SKIP_STEP_SUCCESS]);
 
-    const stepIndex = yield select(selectCurrentStepIndex());
-
-    if (stepIndex === 0) {
-      // last step is reached after this event, state.steps.length === 0
+    // const stepIndex = yield select(selectCurrentStepIndex());
+    //
+    // if (stepIndex === 0) {
+    //   // last step is reached after this event, state.steps.length === 0
       yield(put(loadItem()))
-    }
+    // }
   }
+}
+
+const MAPZEN_URL = 'https://search.mapzen.com/v1/'
+const MAPZEN_API_KEY = 'search-nW0Pk78'
+
+export function* geocode() {
+  const getUrl = (action) => {
+    return `${MAPZEN_URL}search?text=${action.text}&api_key=${MAPZEN_API_KEY}`;
+  }
+
+  yield* requestData(GEOCODE, getUrl, {
+    actionSuccess: geocodeSuccess,
+    actionError: geocodeError,
+    fetchOptions: {
+      credentials: null
+    }
+  });
+}
+
+export function* reverseGeocode(lat, lon) {
+  const getUrl = (action) => {
+    return `${MAPZEN_URL}reverse?point.lat=${action.lat}&point.lon=${action.lon}&api_key=${MAPZEN_API_KEY}`
+  }
+
+  yield* requestData(REVERSE_GEOCODE, getUrl, {
+    actionSuccess: reverseGeocodeSuccess,
+    actionError: reverseGeocodeError,
+    fetchOptions: {
+      credentials: null
+    }
+  });
 }
 
 export function* getItem() {
@@ -170,7 +192,7 @@ export function* getItem() {
     var id = action.id;
 
     if (!id) {
-      return `${API_URL}items/random`;
+      return `${API_URL}tasks/geotag-text/items/random`;
     }
 
     return `${API_URL}items/${action.provider}/${id}`;
@@ -249,13 +271,6 @@ export function* skipStep() {
   });
 }
 
-export function* getCollections() {
-  yield* requestData(LOAD_COLLECTIONS, `${API_URL}collections`, {
-    actionSuccess: collectionsLoaded,
-    actionError: collectionsLoaded
-  });
-}
-
 export function* getLogOut() {
   yield* requestData(LOG_OUT, `${API_URL}oauth/disconnect`, {
     actionSuccess: logOutSuccess,
@@ -264,7 +279,7 @@ export function* getLogOut() {
 }
 
 export function* getSubmissions() {
-  yield* requestData(LOAD_OAUTH_SUCCESS, `${API_URL}submissions/count`, {
+  yield* requestData(LOAD_OAUTH_SUCCESS, `${API_URL}/tasks/geotag-text/submissions/count`, {
     actionSuccess: submissionsLoaded,
     actionError: submissionsLoadingError
   });

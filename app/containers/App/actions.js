@@ -16,15 +16,9 @@
  */
 
 import {
-  WATCHED_INTRODUCTION,
-
   LOAD_ITEM,
   LOAD_ITEM_SUCCESS,
   LOAD_ITEM_ERROR,
-
-  LOAD_COLLECTIONS,
-  LOAD_COLLECTIONS_SUCCESS,
-  LOAD_COLLECTIONS_ERROR,
 
   LOAD_OAUTH,
   LOAD_OAUTH_SUCCESS,
@@ -41,13 +35,19 @@ import {
   SKIP_STEP_SUCCESS,
   SKIP_STEP_ERROR,
 
-  NEXT_STEP,
-
   TOGGLE_MENU,
 
   LOG_OUT,
   LOG_OUT_SUCCESS,
-  LOG_OUT_ERROR
+  LOG_OUT_ERROR,
+
+  GEOCODE,
+  GEOCODE_SUCCESS,
+  GEOCODE_ERROR,
+
+  REVERSE_GEOCODE,
+  REVERSE_GEOCODE_SUCCESS,
+  REVERSE_GEOCODE_ERROR
 } from './constants';
 
 export function setIntroductionWatched() {
@@ -142,26 +142,6 @@ export function itemLoadingError(error) {
   };
 }
 
-export function loadCollections() {
-  return {
-    type: LOAD_COLLECTIONS
-  };
-}
-
-export function collectionsLoaded(collections) {
-  return {
-    type: LOAD_COLLECTIONS_SUCCESS,
-    collections
-  };
-}
-
-export function collectionsLoadingError(error) {
-  return {
-    type: LOAD_COLLECTIONS_ERROR,
-    error
-  };
-}
-
 export function submissionsLoaded(submissions) {
   return {
     type: LOAD_SUBMISSIONS_SUCCESS,
@@ -228,5 +208,49 @@ export function logOutSuccess() {
 export function logOutError() {
   return {
     type: LOG_OUT_ERROR
+  };
+}
+
+
+export function geocode(text) {
+  return {
+    type: GEOCODE,
+    text
+  };
+}
+
+export function geocodeSuccess(results) {
+  return {
+    type: GEOCODE_SUCCESS,
+    results
+  };
+}
+
+export function geocodeError(error) {
+  return {
+    type: GEOCODE_ERROR,
+    error
+  };
+}
+
+export function reverseGeocode(lat, lon) {
+  return {
+    type: REVERSE_GEOCODE,
+    lat,
+    lon
+  };
+}
+
+export function reverseGeocodeSuccess(results) {
+  return {
+    type: REVERSE_GEOCODE_SUCCESS,
+    results
+  };
+}
+
+export function reverseGeocodeError(error) {
+  return {
+    type: REVERSE_GEOCODE_ERROR,
+    error
   };
 }

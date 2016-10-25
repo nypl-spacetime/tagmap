@@ -60,7 +60,7 @@ export class Header extends React.Component {
     }
 
     return (
-      <HeaderComponent title='Surveyor' className={styles.header}>
+      <HeaderComponent title='TAGMAP' className={styles.header}>
         <nav className={`${styles.nav} ${styles['align-center']}`}>
           <a href='javascript:void(0)' onClick={this.toggleMenu} className={`${styles['align-center']}`} ref='menu-link'>
             <span className={`${styles.submissions}`}>
@@ -70,10 +70,6 @@ export class Header extends React.Component {
              {authentication}
             </span>
           </a>
-          <Link to='/intro'>
-            <span className='orientation-horizontal'>Intro</span>
-            <span className='orientation-vertical'>?</span>
-          </Link>
           <Link to='/about'>
             <span className='orientation-horizontal'>About</span>
             <span className='orientation-vertical'>ⓘ</span>

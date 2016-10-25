@@ -11,14 +11,9 @@
  */
 
 import {
-  WATCHED_INTRODUCTION,
-
   LOAD_ITEM,
   LOAD_ITEM_SUCCESS,
   LOAD_ITEM_ERROR,
-
-  LOAD_COLLECTIONS_SUCCESS,
-  LOAD_COLLECTIONS_ERROR,
 
   LOAD_OAUTH,
   LOAD_OAUTH_SUCCESS,
@@ -36,21 +31,21 @@ import {
   SKIP_STEP_SUCCESS,
   SKIP_STEP_ERROR,
 
-  NEXT_STEP,
-
   LOG_OUT,
   LOG_OUT_SUCCESS,
-  LOG_OUT_ERROR
+  LOG_OUT_ERROR,
+
+  GEOCODE_SUCCESS,
+  GEOCODE_ERROR,
+  REVERSE_GEOCODE_SUCCESS,
+  REVERSE_GEOCODE_ERROR
 } from './constants';
 import { fromJS } from 'immutable';
 
 // The initial state of the App
 const initialState = fromJS({
-  watchedIntroduction: false,
   item: initialItem(),
-  oauth: null,
-  collections: [],
-  steps: initialSteps(),
+  oauth: fromJS({}),
   submissions: initialSubmissions(),
   config: fromJS(__CONFIG__),
   menu: fromJS({
@@ -61,18 +56,16 @@ const initialState = fromJS({
   loading: true,
   loaded: fromJS({
     item: false,
-    submissions: false,
-    oauth: false
+    submissions: true,
+    oauth: true
   }),
+  geocodeResults: fromJS({}),
+  reverseGeocodeResults: fromJS({}),
   error: null
 });
 
 function initialItem() {
   return fromJS({});
-}
-
-function initialSteps() {
-  return fromJS([]);
 }
 
 function initialSubmissions() {
@@ -83,8 +76,9 @@ function initialSubmissions() {
 
 function newItem(state) {
   return state
-    .set('steps', initialSteps())
-    .set('item', initialItem());
+    .set('item', initialItem())
+    .set('geocodeResults', fromJS({}))
+    .set('reverseGeocodeResults', fromJS({}))
 }
 
 function loadSuccesful(state, key) {
@@ -101,9 +95,6 @@ function loadSuccesful(state, key) {
 
 function appReducer(state = initialState, action) {
   switch (action.type) {
-    case WATCHED_INTRODUCTION:
-      return state
-        .set('watchedIntroduction', true);
     case LOAD_ITEM:
       var newState = state
         .set('error', null)
@@ -113,9 +104,6 @@ function appReducer(state = initialState, action) {
       var newState = state
         .set('item', action.item);
       return loadSuccesful(newState, 'item');
-    case LOAD_COLLECTIONS_SUCCESS:
-      return state
-        .set('collections', action.collections);
     case LOAD_OAUTH_SUCCESS:
       var newState = state
         .set('oauth', action.oauth);
@@ -169,19 +157,16 @@ function appReducer(state = initialState, action) {
       } else {
         return newItem(state);
       }
-    case NEXT_STEP:
-      var wasLastStep = state.getIn(['config', 'steps']).size - 1 === state.get('steps').size;
-
-      if (!wasLastStep) {
-        return state
-          .set('steps', state.get('steps').push(undefined));
-      } else {
-        return newItem(state);
-      }
     case LOG_OUT_SUCCESS:
       return state
         .set('oauth', null)
         .set('submissions', initialSubmissions());
+    case GEOCODE_SUCCESS:
+      console.log(action)
+      return state;
+    case REVERSE_GEOCODE_SUCCESS:
+      console.log(action)
+      return state;
     case LOAD_ITEM_ERROR:
       return state
         .set('loading', false)
@@ -190,7 +175,6 @@ function appReducer(state = initialState, action) {
           message: 'Error loading image',
           error: action.error
         });
-    case LOAD_COLLECTIONS_ERROR:
     case LOAD_OAUTH_ERROR:
     case LOAD_SUBMISSIONS_ERROR:
     return state

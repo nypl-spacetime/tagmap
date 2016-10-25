@@ -32,7 +32,7 @@ export class Map extends React.Component {
 
   render() {
     return (
-      <div className={styles.mapContainer} ref='cont'>
+      <div className={styles['map-container']} ref='cont'>
         <div className={`${styles.map}`} ref='map' />
       </div>
     )

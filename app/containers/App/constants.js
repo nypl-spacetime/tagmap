@@ -1,20 +1,3 @@
-/*
- * AppConstants
- * Each action has a corresponding type, which the reducer knows and picks up on.
- * To avoid weird typos between the reducer and the actions, we save them as
- * constants here. We prefix them with 'yourproject/YourComponent' so we avoid
- * reducers accidentally picking up actions they shouldn't.
- *
- * Follow this format:
- * export const YOUR_ACTION_CONSTANT = 'yourproject/YourContainer/YOUR_ACTION_CONSTANT';
- */
-
-export const WATCHED_INTRODUCTION = 'surveyor/App/WATCHED_INTRODUCTION';
-
-export const LOAD_COLLECTIONS = 'surveyor/App/LOAD_COLLECTIONS';
-export const LOAD_COLLECTIONS_SUCCESS = 'surveyor/App/LOAD_COLLECTIONS_SUCCESS';
-export const LOAD_COLLECTIONS_ERROR = 'surveyor/App/LOAD_COLLECTIONS_ERROR';
-
 export const LOAD_SUBMISSIONS = 'surveyor/App/LOAD_SUBMISSIONS';
 export const LOAD_SUBMISSIONS_SUCCESS = 'surveyor/App/LOAD_SUBMISSIONS_SUCCESS';
 export const LOAD_SUBMISSIONS_ERROR = 'surveyor/App/LOAD_SUBMISSIONS_ERROR';
@@ -35,10 +18,16 @@ export const SKIP_STEP = 'surveyor/App/SKIP_STEP';
 export const SKIP_STEP_SUCCESS = 'surveyor/App/SKIP_STEP_SUCCESS';
 export const SKIP_STEP_ERROR = 'surveyor/App/SKIP_STEP_ERROR';
 
-export const NEXT_STEP = 'surveyor/App/NEXT_STEP';
-
 export const TOGGLE_MENU = 'surveyor/App/TOGGLE_MENU';
 
 export const LOG_OUT = 'surveyor/App/LOG_OUT';
 export const LOG_OUT_SUCCESS = 'surveyor/App/LOG_OUT_SUCCESS';
 export const LOG_OUT_ERROR = 'surveyor/App/LOG_OUT_ERROR';
+
+export const GEOCODE = 'surveyor/App/GEOCODE';
+export const GEOCODE_SUCCESS = 'surveyor/App/GEOCODE_SUCCESS';
+export const GEOCODE_ERROR = 'surveyor/App/GEOCODE_ERROR';
+
+export const REVERSE_GEOCODE = 'surveyor/App/REVERSE_GEOCODE';
+export const REVERSE_GEOCODE_SUCCESS = 'surveyor/App/REVERSE_GEOCODE_SUCCESS';
+export const REVERSE_GEOCODE_ERROR = 'surveyor/App/REVERSE_GEOCODE_ERROR';

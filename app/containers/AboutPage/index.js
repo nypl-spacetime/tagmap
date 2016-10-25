@@ -12,13 +12,13 @@ export class AboutPage extends React.Component {
     this.props.changeRoute(route);
   };
 
-  toSurveyor = () => {
+  start = () => {
     this.openRoute('/');
   };
 
   render() {
     return (
-      <Page buttonAction={this.toSurveyor}>
+      <Page buttonAction={this.start}>
         <div dangerouslySetInnerHTML={{__html: markdown}} />
       </Page>
     );

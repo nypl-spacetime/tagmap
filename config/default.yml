@@ -1,11 +1,5 @@
 api:
-  url: http://surveyor-api.dev/
-
-steps:
-  - location
-  - bearing-introduction
-  - bearing
-  - thanks
+  url: http://brick-by-brick.dev/
 
 css_variables:
   # mainColor: red

@@ -15,23 +15,15 @@ import {
   selectLoading,
   selectError,
   selectSubmissions,
-  selectLoggedIn,
-  selectWatchedIntroduction
+  selectLoggedIn
 } from 'containers/App/selectors';
 
 import {
   loadItem
 } from '../App/actions';
 
-import Sidebar from 'components/Sidebar';
-import IntroSimple from 'containers/IntroSimple';
-
 import Error from 'containers/Error';
 import Loading from 'containers/Loading';
-
-import Image from 'containers/Image';
-import SlidyPane from 'containers/SlidyPane';
-import Metadata from 'containers/Metadata';
 import Geotagger from 'containers/Geotagger';
 
 import styles from './styles.css';
@@ -75,19 +67,9 @@ export class HomePage extends React.Component {
       mainContent = (
         <Loading />
       );
-    } else if (!this.props.watchedIntroduction && !this.props.loggedIn && !(this.props.submissions.completed > 0)) {
-      mainContent = (
-        <IntroSimple />
-      );
     } else {
       mainContent = (
-        <SlidyPane key={this.props.params.id}>
-          <Image />
-          <Sidebar>
-            <Metadata />
-            <Geotagger />
-          </Sidebar>
-        </SlidyPane>
+        <Geotagger />
       );
     }
 
@@ -111,8 +93,7 @@ export default connect(createSelector(
   selectError(),
   selectSubmissions(),
   selectLoggedIn(),
-  selectWatchedIntroduction(),
-  (item, loading, error, submissions, loggedIn, watchedIntroduction) => ({
-    item, loading, error, submissions, loggedIn, watchedIntroduction
+  (item, loading, error, submissions, loggedIn) => ({
+    item, loading, error, submissions, loggedIn
   })
 ), mapDispatchToProps)(HomePage);

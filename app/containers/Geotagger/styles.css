@@ -1,0 +1,34 @@
+.container {
+  width: 760px;
+  max-width: 90%;
+  margin: 0 auto;
+  padding-top: 1em;
+  box-sizing: border-box;
+}
+
+.contents {
+  font-family: monospace;
+}
+
+.title {
+  text-align: center;
+  font-style: italic;
+}
+
+.title:before {
+  content: '“… ';
+  }
+
+.title:after {
+  content: ' …”';
+}
+
+.iframe {
+  height: 200px;
+  background-color: rgba(233, 10, 89, .2);
+  border-radius: 10px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
