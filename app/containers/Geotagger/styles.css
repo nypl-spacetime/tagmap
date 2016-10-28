@@ -1,16 +1,20 @@
 .container {
   width: 100%;
-  max-width: 1600px;
-  margin: 0 auto;
+  /*max-width: 1600px;*/
+  overflow-y: auto;
+  /*margin: 0 auto;*/
   padding-top: 1em;
   box-sizing: border-box;
   font-family: monospace;
   display: flex;
+  justify-content: center;
 }
 
 .container > * {
   padding: 1em;
-  width: 50%;
+  margin-bottom: 2em;
+  width: 45%;
+  max-width: 800px;
 }
 
 .title {

@@ -59,14 +59,14 @@ const initialState = fromJS({
   loading: true,
   loaded: fromJS({
     item: false,
-    submissions: true,
-    oauth: true
+    submissions: false,
+    oauth: false
   }),
   geocodeResults: fromJS({}),
   reverseGeocodeResults: fromJS({}),
   selectedFeatureIndex: -1,
 
-  initialSearchString: null,
+  initialSearchString: '',
   searchString: '',
 
   error: null
@@ -138,10 +138,14 @@ function appReducer(state = initialState, action) {
           clientX,
           shiftKey
         }));
-    // case SUBMIT_STEP_SUCCESS:
-    //   return state
-    // case SKIP_STEP_SUCCESS:
-    //   return state
+    case SUBMIT_STEP_SUCCESS:
+    case SKIP_STEP_SUCCESS:
+      return state
+        .set('geocodeResults', fromJS({}))
+        .set('reverseGeocodeResults', fromJS({}))
+        .set('selectedFeatureIndex', -1)
+        .set('initialSearchString', '')
+        .set('searchString', '')
     case LOG_OUT_SUCCESS:
       return state
         .set('oauth', null)
@@ -162,12 +166,10 @@ function appReducer(state = initialState, action) {
       if (results && results.features && results.features.length) {
         selectedFeatureIndex = 0
       }
-
       return state
         .set('geocodeResults', fromJS({}))
         .set('reverseGeocodeResults', fromJS(results))
         .set('selectedFeatureIndex', selectedFeatureIndex);
-
     case SET_SELECTED_FEATURE_INDEX:
       return state
         .set('selectedFeatureIndex', action.index)
@@ -180,6 +182,14 @@ function appReducer(state = initialState, action) {
         .set('error', {
           type: action.type,
           message: 'Error loading image',
+          error: action.error
+        });
+    case GEOCODE_ERROR:
+    case REVERSE_GEOCODE_ERROR:
+      return state
+        .set('error', {
+          type: action.type,
+          message: 'Geocoding error',
           error: action.error
         });
     case LOAD_OAUTH_ERROR:
