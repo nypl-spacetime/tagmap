@@ -169,7 +169,7 @@ export function* geocode() {
     actionSuccess: geocodeSuccess,
     actionError: geocodeError,
     fetchOptions: {
-      credentials: null
+      credentials: 'same-origin'
     }
   });
 }
@@ -199,7 +199,7 @@ export function* reverseGeocode(lat, lon) {
     actionSuccess: reverseGeocodeSuccess,
     actionError: reverseGeocodeError,
     fetchOptions: {
-      credentials: null
+      credentials: 'same-origin'
     }
   });
 }
