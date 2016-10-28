@@ -1,10 +1,10 @@
 {
-  "name": "surveyor",
+  "name": "spacetime-tagmap",
   "version": "1.0.0",
-  "description": "Surveyor is a web application for crowdsourced image geotagging",
+  "description": "TAGMAP",
   "repository": {
     "type": "git",
-    "url": "git://github.com/nypl-spacetime/surveyor.git"
+    "url": "git://github.com/nypl-spacetime/tagmap.git"
   },
   "engines": {
     "npm": ">=3"

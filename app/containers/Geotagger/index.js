@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
 import GeocodingMap from 'containers/GeocodingMap';
+import GeocodeSearch from 'containers/GeocodeSearch';
+import GeocodeResults from 'containers/GeocodeResults';
 
 import Button from 'components/Button';
 import Buttons from 'components/Buttons';
@@ -29,7 +31,7 @@ export class Geotagger extends React.Component {
   render() {
     return (
       <div className={styles.container} key={`${this.props.item.provider}-${this.props.item.id}`}>
-        <div className={styles.contents}>
+        <div>
           <h2 className={styles.title}>
             {this.props.initialSearchString}
           </h2>
@@ -38,12 +40,16 @@ export class Geotagger extends React.Component {
           </div>
           <GeocodingMap />
         </div>
-        <Buttons>
-          <Button onClick={this.yes.bind(this)}>Yes</Button>
-          <Button onClick={this.no.bind(this)}>No</Button>
-          <Button onClick={this.skip.bind(this)} disabled={false}>Skip</Button>
-          <Button onClick={this.reset.bind(this)} disabled={false}>Reset</Button>
-        </Buttons>
+        <div>
+          <GeocodeSearch />
+          <GeocodeResults />
+          <Buttons>
+            <Button onClick={this.yes.bind(this)} className={styles['button-yes']}>Yes</Button>
+            <Button onClick={this.no.bind(this)} className={styles['button-no']}>No</Button>
+            <Button onClick={this.skip.bind(this)} className={styles['button-skip']}>Skip</Button>
+            <Button onClick={this.reset.bind(this)} className={styles['button-reset']}>Reset</Button>
+          </Buttons>
+        </div>
       </div>
     )
   }

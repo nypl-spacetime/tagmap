@@ -10,20 +10,15 @@ import {
   selectGeocodeResults,
   selectReverseGeocodeResults,
   selectInitialSearchString,
-  selectSearchString,
   selectSelectedFeatureIndex,
 } from 'containers/App/selectors';
 
 import {
   geocode,
-  reverseGeocode,
-  setSelectedFeatureIndex,
-  setSearchString
+  reverseGeocode
 } from '../App/actions';
 
 import Map from 'containers/Map';
-
-import GeocodeResult from 'components/GeocodeResult';
 
 import styles from './styles.css';
 
@@ -39,66 +34,11 @@ export class GeocodingMap extends React.Component {
   }
 
   render() {
-    var features;
-    if (this.props.geocodeResults && this.props.geocodeResults.features) {
-      features = this.props.geocodeResults.features
-    }
-
-    // else if (this.props.reverseGeocodeResults && this.props.reverseGeocodeResults.features) {
-    //   features = this.props.reverseGeocodeResults.features
-    // }
-
-    var geocodeResults;
-
-    if (features && features.length) {
-      geocodeResults = (
-        <ol className={styles['geocode-results']}>
-          {features.map((feature, i) =>
-            <GeocodeResult key={i} selected={ this.props.selectedFeatureIndex === i }
-              feature={feature} index={i} onClick={this.selectFeature.bind(this)} />
-          )}
-        </ol>
-      );
-    } else if (features) {
-      geocodeResults = (
-        <div className={styles['empty-results']}>
-          Nothing found
-        </div>
-      );
-    }
-
     return (
-      <div>
-        <div className={styles['map-container']}>
-          <Map mapCreated={this.mapCreated.bind(this)} />
-        </div>
-        <form className={styles['geocode-form']} onSubmit={this.onGeocodeSubmit.bind(this)}>
-          <input ref='geocodeInput' type='text'
-            value={this.props.searchString} onChange={this.searchStringChange.bind(this)}
-            className={styles['geocode-input']} />
-          <button type="submit">Search</button>
-        </form>
-        { geocodeResults }
+      <div className={styles['map-container']}>
+        <Map mapCreated={this.mapCreated.bind(this)} />
       </div>
     )
-  }
-
-  searchStringChange(event) {
-    this.props.setSearchString(event.target.value);
-  }
-
-  selectFeature(index) {
-    this.props.setSelectedFeatureIndex(index);
-  }
-
-  onGeocodeSubmit(event) {
-    const search = findDOMNode(this.refs.geocodeInput).value;
-
-    // TODO: only if different
-    // TODO: do dispatch
-
-    this.props.geocode(search);
-    event.preventDefault();
   }
 
   zoomToFeature(feature) {
@@ -161,9 +101,6 @@ export class GeocodingMap extends React.Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setSearchString: (string) => {
-      dispatch(setSearchString(string));
-    },
     geocode: (text) => {
       dispatch(geocode(text));
     },
@@ -182,9 +119,8 @@ export default connect(createSelector(
   selectGeocodeResults(),
   selectReverseGeocodeResults(),
   selectInitialSearchString(),
-  selectSearchString(),
   selectSelectedFeatureIndex(),
-  (geocodeResults, reverseGeocodeResults, initialSearchString, searchString, selectedFeatureIndex) => ({
-    geocodeResults, reverseGeocodeResults, initialSearchString, searchString, selectedFeatureIndex
+  (geocodeResults, reverseGeocodeResults, initialSearchString, selectedFeatureIndex) => ({
+    geocodeResults, reverseGeocodeResults, initialSearchString, selectedFeatureIndex
   })
 ), mapDispatchToProps, null, { withRef: true })(GeocodingMap);

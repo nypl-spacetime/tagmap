@@ -1,0 +1,9 @@
+.geocode-results {
+  list-style-type: none;
+}
+
+.empty-results {
+  background-color: red;
+  padding: .3em .5em;
+  border-radius: 5px;
+}

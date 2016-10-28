@@ -1,13 +1,16 @@
 .container {
-  width: 760px;
-  max-width: 90%;
+  width: 100%;
+  max-width: 1600px;
   margin: 0 auto;
   padding-top: 1em;
   box-sizing: border-box;
+  font-family: monospace;
+  display: flex;
 }
 
-.contents {
-  font-family: monospace;
+.container > * {
+  padding: 1em;
+  width: 50%;
 }
 
 .title {
@@ -36,4 +39,20 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.button-yes {
+  background-color: #007F19;
+}
+
+.button-no {
+  background-color: #FF0900;
+}
+
+.button-skip {
+  background-color: #aaa;
+}
+
+.button-reset {
+  background-color: #007FFF;
 }

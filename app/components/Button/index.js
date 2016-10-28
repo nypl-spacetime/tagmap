@@ -13,6 +13,7 @@ import styles from './styles.css';
 function Button(props) {
   var classNames = [
     styles.button,
+    props.className,
     (props.type && styles[props.type]) ? styles[props.type] : '',
     props.disabled ? styles.disabled : ''
   ];
