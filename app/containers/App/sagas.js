@@ -156,7 +156,13 @@ const MAPZEN_API_KEY = 'search-nW0Pk78'
 
 export function* geocode() {
   const getUrl = (action) => {
-    return `${MAPZEN_URL}search?text="${action.text}"&api_key=${MAPZEN_API_KEY}`;
+    const layers = [
+      'coarse',
+      'venue',
+      'address'
+    ]
+
+    return `${MAPZEN_URL}search?text="${action.text}"&api_key=${MAPZEN_API_KEY}&layers=${layers.join(',')}`;
   }
 
   yield* requestData(GEOCODE, getUrl, {

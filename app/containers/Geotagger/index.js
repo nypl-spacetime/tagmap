@@ -97,7 +97,7 @@ export class Geotagger extends React.Component {
   }
 
   no() {
-    if (!this.canSendData()) {
+    if (!(this.props.item && this.props.item.id)) {
       return;
     }
 
@@ -113,7 +113,7 @@ export class Geotagger extends React.Component {
   }
 
   skip() {
-    if (!this.canSendData()) {
+    if (!(this.props.item && this.props.item.id)) {
       return;
     }
 
