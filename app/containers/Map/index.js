@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { findDOMNode } from 'react-dom';
 
 import L from 'leaflet';
+L.Icon.Default.imagePath = ''
 
 import { createSelector } from 'reselect';
 

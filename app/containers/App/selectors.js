@@ -54,9 +54,48 @@ const selectSubmissions = () => createSelector(
   (globalState) => globalState.get('submissions').toJS()
 );
 
+const selectGeocodeResults = () => createSelector(
+  selectGlobal(),
+  (globalState) => {
+    // console.log('selector', 'selectGeocodeResults', globalState.get('geocodeResults').toJS())
+    return globalState.get('geocodeResults').toJS()
+  }
+);
+
+const selectReverseGeocodeResults = () => createSelector(
+  selectGlobal(),
+  (globalState) => globalState.get('reverseGeocodeResults').toJS()
+);
+
+const selectGeocodeFeature = () => createSelector(
+  selectGlobal(),
+  (globalState) => {
+    const feature = globalState.getIn(['geocodeResults', 'features',  globalState.get('selectedFeatureIndex')])
+    const features = globalState.getIn(['geocodeResults', 'features'])
+    if (feature) {
+      return feature.toJS();
+    }
+  }
+);
+
 const selectMenu = () => createSelector(
   selectGlobal(),
   (globalState) => globalState.get('menu').toJS()
+);
+
+const selectSearchString = () => createSelector(
+  selectGlobal(),
+  (globalState) => globalState.get('searchString')
+);
+
+const selectInitialSearchString = () => createSelector(
+  selectGlobal(),
+  (globalState) => globalState.get('initialSearchString')
+);
+
+const selectSelectedFeatureIndex = () => createSelector(
+  selectGlobal(),
+  (globalState) => globalState.get('selectedFeatureIndex')
 );
 
 const selectLocationState = () => {
@@ -91,5 +130,14 @@ export {
 
   selectLoading,
   selectError,
+
+  selectGeocodeResults,
+  selectReverseGeocodeResults,
+  selectGeocodeFeature,
+
+  selectSearchString,
+  selectInitialSearchString,
+  selectSelectedFeatureIndex,
+
   selectLocationState
 };

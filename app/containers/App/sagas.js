@@ -61,6 +61,7 @@ export default [
 ];
 
 const API_URL = __CONFIG__.api.url
+const TASK = 'geotag-text'
 
 function isFunction(functionToCheck) {
   var getType = {};
@@ -146,13 +147,7 @@ export function* setRoute() {
 export function* resetItem() {
   while (true) {
     yield take([SUBMIT_STEP_SUCCESS, SKIP_STEP_SUCCESS]);
-
-    // const stepIndex = yield select(selectCurrentStepIndex());
-    //
-    // if (stepIndex === 0) {
-    //   // last step is reached after this event, state.steps.length === 0
-      yield(put(loadItem()))
-    // }
+    yield(put(loadItem()))
   }
 }
 
@@ -161,7 +156,7 @@ const MAPZEN_API_KEY = 'search-nW0Pk78'
 
 export function* geocode() {
   const getUrl = (action) => {
-    return `${MAPZEN_URL}search?text=${action.text}&api_key=${MAPZEN_API_KEY}`;
+    return `${MAPZEN_URL}search?text="${action.text}"&api_key=${MAPZEN_API_KEY}`;
   }
 
   yield* requestData(GEOCODE, getUrl, {
@@ -174,8 +169,24 @@ export function* geocode() {
 }
 
 export function* reverseGeocode(lat, lon) {
+  const layers = [
+    'coarse'
+    // 'venue',
+    // 'address',
+    // 'street',
+    // 'country',
+    // 'macroregion',
+    // 'region',
+    // 'macrocounty',
+    // 'county',
+    // 'locality',
+    // 'localadmin',
+    // 'borough',
+    // 'neighbourhood'
+  ];
+
   const getUrl = (action) => {
-    return `${MAPZEN_URL}reverse?point.lat=${action.lat}&point.lon=${action.lon}&api_key=${MAPZEN_API_KEY}`
+    return `${MAPZEN_URL}reverse?point.lat=${action.lat}&point.lon=${action.lon}&api_key=${MAPZEN_API_KEY}&layers=${layers.join(',')}&sources=wof`
   }
 
   yield* requestData(REVERSE_GEOCODE, getUrl, {
@@ -192,7 +203,7 @@ export function* getItem() {
     var id = action.id;
 
     if (!id) {
-      return `${API_URL}tasks/geotag-text/items/random`;
+      return `${API_URL}tasks/${TASK}/items/random`;
     }
 
     return `${API_URL}items/${action.provider}/${id}`;
@@ -214,13 +225,8 @@ export function* submitStep() {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      type: 'Feature',
-      properties: {
-        step: action.step,
-        stepIndex: action.stepIndex,
-        data: action.data
-      },
-      geometry: action.geometry
+      task: TASK,
+      data: action.data
     })
   })
 
@@ -230,10 +236,7 @@ export function* submitStep() {
     actionSuccessParams: (action, resultData) => [
       action.provider,
       action.id,
-      action.step,
-      action.stepIndex,
-      action.data,
-      action.geometry
+      action.data
     ],
     actionError: stepSubmitError
   });
@@ -249,12 +252,8 @@ export function* skipStep() {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      type: 'Feature',
-      properties: {
-        step: action.step,
-        stepIndex: action.stepIndex,
-        skipped: true
-      }
+      task: TASK,
+      skipped: true
     })
   });
 
@@ -263,9 +262,7 @@ export function* skipStep() {
     actionSuccess: stepSkipped,
     actionSuccessParams: (action, resultData) => [
       action.provider,
-      action.id,
-      action.step,
-      action.stepIndex
+      action.id
     ],
     actionError: stepSkipError
   });
@@ -279,7 +276,7 @@ export function* getLogOut() {
 }
 
 export function* getSubmissions() {
-  yield* requestData(LOAD_OAUTH_SUCCESS, `${API_URL}/tasks/geotag-text/submissions/count`, {
+  yield* requestData(LOAD_OAUTH_SUCCESS, `${API_URL}/tasks/${TASK}/submissions/count`, {
     actionSuccess: submissionsLoaded,
     actionError: submissionsLoadingError
   });

@@ -1,20 +1,3 @@
-/*
- * App Actions
- *
- * Actions change things in your application
- * Since this boilerplate uses a uni-directional data flow, specifically redux,
- * we have these actions which are the only way your application interacts with
- * your appliction state. This guarantees that your state is up to date and nobody
- * messes it up weirdly somewhere.
- *
- * To add a new Action:
- * 1) Import your constant
- * 2) Add a function like this:
- *    export function yourAction(var) {
- *        return { type: YOUR_ACTION_CONSTANT, var: var }
- *    }
- */
-
 import {
   LOAD_ITEM,
   LOAD_ITEM_SUCCESS,
@@ -47,7 +30,10 @@ import {
 
   REVERSE_GEOCODE,
   REVERSE_GEOCODE_SUCCESS,
-  REVERSE_GEOCODE_ERROR
+  REVERSE_GEOCODE_ERROR,
+
+  SET_SELECTED_FEATURE_INDEX,
+  SET_SEARCH_STRING
 } from './constants';
 
 export function setIntroductionWatched() {
@@ -62,27 +48,21 @@ export function nextStep() {
   };
 }
 
-export function submitStep(provider, id, step, stepIndex, data, geometry) {
+export function submitStep(provider, id, data) {
   return {
     type: SUBMIT_STEP,
     provider,
     id,
-    step,
-    stepIndex,
-    data,
-    geometry
+    data
   };
 }
 
-export function stepSubmitted(provider, id, step, stepIndex, data, geometry) {
+export function stepSubmitted(provider, id, data) {
   return {
     type: SUBMIT_STEP_SUCCESS,
     provider,
     id,
-    step,
-    stepIndex,
-    data,
-    geometry
+    data
   };
 }
 
@@ -93,23 +73,19 @@ export function stepSubmitError(error) {
   };
 }
 
-export function skipStep(provider, id, step, stepIndex) {
+export function skipStep(provider, id) {
   return {
     type: SKIP_STEP,
     provider,
-    id,
-    step,
-    stepIndex
+    id
   };
 }
 
-export function stepSkipped(provider, id, step, stepIndex) {
+export function stepSkipped(provider, id) {
   return {
     type: SKIP_STEP_SUCCESS,
     provider,
-    id,
-    step,
-    stepIndex
+    id
   };
 }
 
@@ -252,5 +228,19 @@ export function reverseGeocodeError(error) {
   return {
     type: REVERSE_GEOCODE_ERROR,
     error
+  };
+}
+
+export function setSelectedFeatureIndex(index) {
+  return {
+    type: SET_SELECTED_FEATURE_INDEX,
+    index
+  };
+}
+
+export function setSearchString(string) {
+  return {
+    type: SET_SEARCH_STRING,
+    string
   };
 }

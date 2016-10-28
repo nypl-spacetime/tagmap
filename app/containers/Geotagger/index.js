@@ -9,56 +9,105 @@ import Button from 'components/Button';
 import Buttons from 'components/Buttons';
 
 import {
-  selectItem
+  selectItem,
+  selectSearchString,
+  selectInitialSearchString,
+  selectGeocodeFeature
 } from 'containers/App/selectors';
 
 import styles from './styles.css';
 
 import {
+  geocode,
   submitStep,
-  skipStep
+  skipStep,
+  setSearchString
 } from '../App/actions';
 
 export class Geotagger extends React.Component {
 
   render() {
     return (
-      <div className={styles.container}>
+      <div className={styles.container} key={`${this.props.item.provider}-${this.props.item.id}`}>
         <div className={styles.contents}>
           <h2 className={styles.title}>
-            {this.props.item.data.text}
+            {this.props.initialSearchString}
           </h2>
           <div className={styles.iframe}>
-            <span>iFrame with metadata and audio segment player</span>
+            <span>📻 iFrame with metadata and audio segment player 🎤</span>
           </div>
-          <GeocodingMap initialSearch={this.props.item.data.text} />
+          <GeocodingMap />
         </div>
         <Buttons>
           <Button onClick={this.yes.bind(this)}>Yes</Button>
-          <Button onClick={this.yes.bind(this)}>No</Button>
+          <Button onClick={this.no.bind(this)}>No</Button>
           <Button onClick={this.skip.bind(this)} disabled={false}>Skip</Button>
+          <Button onClick={this.reset.bind(this)} disabled={false}>Reset</Button>
         </Buttons>
       </div>
     )
-    // var step = this.state.steps[this.props.currentStepIndex];
-    //
-    // return React.createElement(step.component, {
-    //   next: this.nextStep.bind(this),
-    //   submit: this.submitStep.bind(this),
-    //   skip: this.skipStep.bind(this)
-    // })
+  }
+
+  keyDown(event) {
+    if (event.shiftKey) {
+      if (event.keyCode === 49) {
+        // 1
+        this.yes();
+      } else if (event.keyCode === 50) {
+        // 2
+        this.no();
+      } else if (event.keyCode === 51) {
+        // 3
+        this.skip();
+      } else if (event.keyCode === 52) {
+        // 4
+        this.reset();
+      }
+    }
   }
 
   yes() {
+    if (!this.canSendData()) {
+      return;
+    }
 
+    const feature = this.props.geocodeFeature;
+
+    const data = {
+      toponym: true,
+      id: feature.properties.gid,
+      geometry: feature.geometry
+    };
+
+    if (this.props.searchString !== this.props.initialSearchString) {
+      data.searchString = this.props.searchString;
+    }
+
+    this.props.submitStep(
+      this.props.item.provider,
+      this.props.item.id,
+      data
+    )
   }
 
   no() {
+    if (!this.canSendData()) {
+      return;
+    }
 
+    const data = {
+      toponym: false
+    };
+
+    this.props.submitStep(
+      this.props.item.provider,
+      this.props.item.id,
+      data
+    )
   }
 
   skip() {
-    if (!this.props.item.id) {
+    if (!this.canSendData()) {
       return;
     }
 
@@ -68,27 +117,35 @@ export class Geotagger extends React.Component {
     )
   }
 
-  submitStep(data, geometry) {
-    if (!this.props.item.id) {
-      return;
+  reset() {
+    if (this.props.initialSearchString) {
+      this.props.setSearchString(this.props.initialSearchString)
+      this.props.geocode(this.props.initialSearchString)
     }
+  }
 
-    this.props.submitStep(
-      this.props.item.provider,
-      this.props.item.id,
-      data,
-      geometry
-    )
+  canSendData() {
+    return this.props.item && this.props.item.id && this.props.geocodeFeature && this.props.geocodeFeature.properties;
+  }
+
+  componentDidMount = () => {
+    document.addEventListener('keydown', this.keyDown.bind(this));
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    submitStep: (provider, id, step, stepIndex, data, geometry) => {
-      dispatch(submitStep(provider, id, step, stepIndex, data, geometry));
+    setSearchString: (string) => {
+      dispatch(setSearchString(string));
     },
-    skipStep: (provider, id, step, stepIndex) => {
-      dispatch(skipStep(provider, id, step, stepIndex));
+    geocode: (text) => {
+      dispatch(geocode(text));
+    },
+    submitStep: (provider, id, data) => {
+      dispatch(submitStep(provider, id, data));
+    },
+    skipStep: (provider, id) => {
+      dispatch(skipStep(provider, id));
     },
     dispatch
   };
@@ -97,7 +154,10 @@ function mapDispatchToProps(dispatch) {
 // Wrap the component to inject dispatch and state into it
 export default connect(createSelector(
   selectItem(),
-  (item) => ({
-    item
+  selectInitialSearchString(),
+  selectSearchString(),
+  selectGeocodeFeature(),
+  (item, initialSearchString, searchString, geocodeFeature) => ({
+    item, initialSearchString, searchString, geocodeFeature
   })
 ), mapDispatchToProps)(Geotagger);

@@ -13,7 +13,7 @@ function Page(props) {
         {props.children}
       </article>
       <Buttons>
-        <Button onClick={props.buttonAction} type='primary'>Start Surveying!</Button>
+        <Button onClick={props.buttonAction} type='primary'>Start mapping!</Button>
       </Buttons>
       <Footer className={styles.footer}/>
     </div>

@@ -13,6 +13,7 @@
 .title {
   text-align: center;
   font-style: italic;
+  margin-bottom: 0.5em;
 }
 
 .title:before {
@@ -24,9 +25,13 @@
 }
 
 .iframe {
-  height: 200px;
-  background-color: rgba(233, 10, 89, .2);
+  height: 80px;
+  margin-bottom: 1em;
+
+  background-color: #FFDC03;
   border-radius: 10px;
+  border-color: #7F6E02;
+  border-width: 2px;
 
   display: flex;
   justify-content: center;

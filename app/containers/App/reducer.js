@@ -38,7 +38,10 @@ import {
   GEOCODE_SUCCESS,
   GEOCODE_ERROR,
   REVERSE_GEOCODE_SUCCESS,
-  REVERSE_GEOCODE_ERROR
+  REVERSE_GEOCODE_ERROR,
+
+  SET_SELECTED_FEATURE_INDEX,
+  SET_SEARCH_STRING
 } from './constants';
 import { fromJS } from 'immutable';
 
@@ -61,6 +64,11 @@ const initialState = fromJS({
   }),
   geocodeResults: fromJS({}),
   reverseGeocodeResults: fromJS({}),
+  selectedFeatureIndex: -1,
+
+  initialSearchString: null,
+  searchString: '',
+
   error: null
 });
 
@@ -101,8 +109,17 @@ function appReducer(state = initialState, action) {
 
       return newItem(newState);
     case LOAD_ITEM_SUCCESS:
+      var initialSearchString;
+      if (action.item && action.item.data) {
+        initialSearchString = action.item.data.text
+      }
+
       var newState = state
-        .set('item', action.item);
+        .set('item', action.item)
+        .set('geocodeResults', fromJS({}))
+        .set('reverseGeocodeResults', fromJS({}))
+        .set('searchString', initialSearchString)
+        .set('initialSearchString', initialSearchString)
       return loadSuccesful(newState, 'item');
     case LOAD_OAUTH_SUCCESS:
       var newState = state
@@ -121,52 +138,42 @@ function appReducer(state = initialState, action) {
           clientX,
           shiftKey
         }));
-    case SUBMIT_STEP_SUCCESS:
-      var wasLastStep = state.getIn(['config', 'steps']).size - 1 === state.get('steps').size;
-
-      if (!wasLastStep) {
-        const stepData = {
-          provider: action.provider,
-          id: action.id,
-          step: action.step,
-          data: action.data,
-          geometry: action.geometry
-        };
-
-        var newState = state
-          .set('steps', state.get('steps').push(fromJS(stepData)));
-
-        if (newState.get('steps').size === 1) {
-          newState = newState
-            .updateIn(['submissions', 'completed'], completed => completed + 1);
-        }
-
-        return newState;
-      } else {
-        return newItem(state);
-      }
-    case SKIP_STEP_SUCCESS:
-      const stepsWithData = state
-        .get('steps').toJS()
-        .filter((step) => step);
-
-      if (stepsWithData.length) {
-        // Go to thanks step (last step)
-        const stepsTotalCount = state.getIn(['config', 'steps']).size;
-        return state.update('steps', (steps) => steps.setSize(stepsTotalCount - 1));
-      } else {
-        return newItem(state);
-      }
+    // case SUBMIT_STEP_SUCCESS:
+    //   return state
+    // case SKIP_STEP_SUCCESS:
+    //   return state
     case LOG_OUT_SUCCESS:
       return state
         .set('oauth', null)
         .set('submissions', initialSubmissions());
     case GEOCODE_SUCCESS:
-      console.log(action)
-      return state;
+      var results = action.results;
+      var selectedFeatureIndex = -1;
+      if (results && results.features && results.features.length) {
+        selectedFeatureIndex = 0
+      }
+
+      return state
+        .set('geocodeResults', fromJS(results))
+        .set('selectedFeatureIndex', selectedFeatureIndex);
     case REVERSE_GEOCODE_SUCCESS:
-      console.log(action)
-      return state;
+      var results = action.results;
+      var selectedFeatureIndex = -1;
+      if (results && results.features && results.features.length) {
+        selectedFeatureIndex = 0
+      }
+
+      return state
+        .set('geocodeResults', fromJS({}))
+        .set('reverseGeocodeResults', fromJS(results))
+        .set('selectedFeatureIndex', selectedFeatureIndex);
+
+    case SET_SELECTED_FEATURE_INDEX:
+      return state
+        .set('selectedFeatureIndex', action.index)
+    case SET_SEARCH_STRING:
+      return state
+        .set('searchString', action.string)
     case LOAD_ITEM_ERROR:
       return state
         .set('loading', false)
