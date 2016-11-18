@@ -37,8 +37,6 @@ export class HomePage extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    // For now, only provider=nypl routes are supported!
-
     // user types in new route
     var newRouteId = this.props.item.id === this.props.params.id &&
       props.item.id === this.props.item.id && props.item.id &&
@@ -79,8 +77,8 @@ export class HomePage extends React.Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    loadItem: (provider, id) => {
-      dispatch(loadItem(provider, id));
+    loadItem: (organizationId, id) => {
+      dispatch(loadItem(organizationId, id));
     },
     dispatch
   };

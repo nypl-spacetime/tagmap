@@ -29,8 +29,15 @@ import {
 export class Geotagger extends React.Component {
 
   render() {
+    if (!this.props.item || !this.props.item.organization || !this.props.item) {
+      return (
+        <div>
+        </div>
+      )
+    }
+
     return (
-      <div className={styles.container} key={`${this.props.item.provider}-${this.props.item.id}`}>
+      <div className={styles.container} key={`${this.props.item.organization.id}-${this.props.item.id}`}>
         <div>
           <h2 className={styles.title}>
             {this.props.initialSearchString}
@@ -81,6 +88,7 @@ export class Geotagger extends React.Component {
 
     const data = {
       toponym: true,
+      geocoder: 'mapzen',
       id: feature.properties.gid,
       geometry: feature.geometry
     };
@@ -90,7 +98,7 @@ export class Geotagger extends React.Component {
     }
 
     this.props.submitStep(
-      this.props.item.provider,
+      this.props.item.organization.id,
       this.props.item.id,
       data
     )
@@ -106,7 +114,7 @@ export class Geotagger extends React.Component {
     };
 
     this.props.submitStep(
-      this.props.item.provider,
+      this.props.item.organization.id,
       this.props.item.id,
       data
     )
@@ -118,7 +126,7 @@ export class Geotagger extends React.Component {
     }
 
     this.props.skipStep(
-      this.props.item.provider,
+      this.props.item.organization.id,
       this.props.item.id
     )
   }
@@ -147,11 +155,11 @@ function mapDispatchToProps(dispatch) {
     geocode: (text) => {
       dispatch(geocode(text));
     },
-    submitStep: (provider, id, data) => {
-      dispatch(submitStep(provider, id, data));
+    submitStep: (organizationId, id, data) => {
+      dispatch(submitStep(organizationId, id, data));
     },
-    skipStep: (provider, id) => {
-      dispatch(skipStep(provider, id));
+    skipStep: (organizationId, id) => {
+      dispatch(skipStep(organizationId, id));
     },
     dispatch
   };

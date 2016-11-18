@@ -61,7 +61,8 @@ export default [
 ];
 
 const API_URL = __CONFIG__.api.url
-const TASK = 'geotag-text'
+const TASK_ID = 'geotag-text'
+const ORGANIZATION_ID = 'nypl'
 
 function isFunction(functionToCheck) {
   var getType = {};
@@ -209,10 +210,10 @@ export function* getItem() {
     var id = action.id;
 
     if (!id) {
-      return `${API_URL}tasks/${TASK}/items/random`;
+      return `${API_URL}tasks/${TASK_ID}/items/random?organization=${ORGANIZATION_ID}`;
     }
 
-    return `${API_URL}items/${action.provider}/${id}`;
+    return `${API_URL}organizations/${action.organizationId}/items/${id}`;
   }
 
   yield* requestData(LOAD_ITEM, getUrl, {
@@ -222,7 +223,7 @@ export function* getItem() {
 }
 
 export function* submitStep() {
-  const getUrl = (action) => `${API_URL}items/${action.provider}/${action.id}`;
+  const getUrl = (action) => `${API_URL}submissions`;
 
   const fetchOptions = (action) => ({
     method: 'post',
@@ -231,7 +232,15 @@ export function* submitStep() {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      task: TASK,
+      item: {
+        id: action.id
+      },
+      organization: {
+        id: action.organizationId
+      },
+      task: {
+        id: TASK_ID
+      },
       data: action.data
     })
   })
@@ -240,7 +249,7 @@ export function* submitStep() {
     fetchOptions,
     actionSuccess: stepSubmitted,
     actionSuccessParams: (action, resultData) => [
-      action.provider,
+      action.organizationId,
       action.id,
       action.data
     ],
@@ -249,7 +258,7 @@ export function* submitStep() {
 }
 
 export function* skipStep() {
-  const getUrl = (action) => `${API_URL}items/${action.provider}/${action.id}`;
+  const getUrl = (action) => `${API_URL}submissions`;
 
   const fetchOptions = (action) => ({
     method: 'post',
@@ -258,7 +267,15 @@ export function* skipStep() {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      task: TASK,
+      item: {
+        id: action.id
+      },
+      organization: {
+        id: action.organizationId
+      },
+      task: {
+        id: TASK_ID
+      },
       skipped: true
     })
   });
@@ -267,7 +284,7 @@ export function* skipStep() {
     fetchOptions,
     actionSuccess: stepSkipped,
     actionSuccessParams: (action, resultData) => [
-      action.provider,
+      action.organizationId,
       action.id
     ],
     actionError: stepSkipError
@@ -282,7 +299,7 @@ export function* getLogOut() {
 }
 
 export function* getSubmissions() {
-  yield* requestData(LOAD_OAUTH_SUCCESS, `${API_URL}tasks/${TASK}/submissions/count`, {
+  yield* requestData(LOAD_OAUTH_SUCCESS, `${API_URL}tasks/${TASK_ID}/submissions/count`, {
     actionSuccess: submissionsLoaded,
     actionError: submissionsLoadingError
   });

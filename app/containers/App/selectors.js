@@ -33,7 +33,7 @@ const selectCSSVariables = () => createSelector(
 
 const selectItem = () => createSelector(
   selectGlobal(),
-  (globalState) => globalState.get('item')
+  (globalState) => globalState.get('item').toJS()
 );
 
 const selectOAuth = () => createSelector(

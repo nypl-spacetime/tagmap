@@ -115,7 +115,7 @@ function appReducer(state = initialState, action) {
       }
 
       var newState = state
-        .set('item', action.item)
+        .set('item', fromJS(action.item))
         .set('geocodeResults', fromJS({}))
         .set('reverseGeocodeResults', fromJS({}))
         .set('searchString', initialSearchString)

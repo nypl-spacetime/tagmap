@@ -48,19 +48,19 @@ export function nextStep() {
   };
 }
 
-export function submitStep(provider, id, data) {
+export function submitStep(organizationId, id, data) {
   return {
     type: SUBMIT_STEP,
-    provider,
+    organizationId,
     id,
     data
   };
 }
 
-export function stepSubmitted(provider, id, data) {
+export function stepSubmitted(organizationId, id, data) {
   return {
     type: SUBMIT_STEP_SUCCESS,
-    provider,
+    organizationId,
     id,
     data
   };
@@ -73,18 +73,18 @@ export function stepSubmitError(error) {
   };
 }
 
-export function skipStep(provider, id) {
+export function skipStep(organizationId, id) {
   return {
     type: SKIP_STEP,
-    provider,
+    organizationId,
     id
   };
 }
 
-export function stepSkipped(provider, id) {
+export function stepSkipped(organizationId, id) {
   return {
     type: SKIP_STEP_SUCCESS,
-    provider,
+    organizationId,
     id
   };
 }
@@ -96,10 +96,10 @@ export function stepSkipError(error) {
   };
 }
 
-export function loadItem(provider, id) {
+export function loadItem(organizationId, id) {
   return {
     type: LOAD_ITEM,
-    provider,
+    organizationId,
     id
   };
 }
@@ -152,10 +152,10 @@ export function oauthLoadingError(error) {
   };
 }
 
-export function loadItem(provider, id) {
+export function loadItem(organizationId, id) {
   return {
     type: LOAD_ITEM,
-    provider,
+    organizationId,
     id
   };
 }
