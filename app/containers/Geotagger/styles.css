@@ -45,6 +45,15 @@
   align-items: center;
 }
 
+.iframe-container {
+  height: 80px;
+}
+
+.iframe-container iframe {
+  width: 100%;
+  height: 100%;
+}
+
 .button-yes {
   background-color: #007F19;
 }
