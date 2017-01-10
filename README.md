@@ -40,7 +40,7 @@ Other issues:
 
 - [_“Katy Perry”_](http://spacetime.nypl.org/tagmap/#/beau-mccall-zwn9pa_ann_1456_1458): **NO**!
 - [_“Harlem”_](http://spacetime.nypl.org/tagmap/#/kathy-bristow-g6uztv_ann_17_19): **YES** — `Harlem, Manhattan, New York, NY, USA`
-- [_“Punjab”_](http://spacetime.nypl.org/tagmap/#/leslie-taylor-3hkc34_ann_508_510): **NO** — Punjab is a [state in India](https://en.wikipedia.org/wiki/Punjab,_India), but listening to the audio will reveil that Leslie Taylor is talking about a restaurant on Bleecker Street. **SKIP** this item for now.
+- [_“Punjab”_](http://spacetime.nypl.org/tagmap/#/leslie-taylor-3hkc34_ann_508_510): **SKIP** — Punjab is a [state in India](https://en.wikipedia.org/wiki/Punjab,_India), but listening to the audio will reveil that Leslie Taylor is talking about a restaurant on Bleecker Street.
 - [_“187 Street”_](http://spacetime.nypl.org/tagmap/#/ed-lehner-z1s7bn_ann_2893_2895): **SKIP** — TAGMAP currently cannot find streets without house numbers
 - [_“420 Broadway”_](http://spacetime.nypl.org/tagmap/#/zigi-ben-haim-6vql95_ann_305_307): **YES** — `420 Broadway, Manhattan, New York, NY, USA`
 
