@@ -17,7 +17,7 @@ Below the list of geographic results, four buttons are shown:
 - **SKIP**: The annotation is a geographic place, but the search tool either didn't find the correct location, or it is unclear (even after listening to the interview) which exact location is meant.
 - **RESET**: Reset the edited search string to the original annotation
 
-**Don't spend too much time per item, it's fine to skip! This is just a first try, we can improve TAGMAP, the annotations, and the submissions later!**
+**Don't spend too much time per item, it's fine to skip! (We can improve TAGMAP, the annotations, and the submissions later!)**
 
 ## Editing incorrect annotations
 
@@ -29,14 +29,14 @@ The animation below shows changing _“Manhatten”_ to _“Manhattan”_:
 
 ## Known issues
 
-Under the hood, TAGMAP uses [Mapzen Search](https://mapzen.com/products/search/), a search engine for geographic names. Mapzen Search is free and usually works pretty well, but it does not find the following annotations:
+Under the hood, TAGMAP uses [Mapzen Search](https://mapzen.com/products/search/), a search engine for geographic names. Mapzen Search is free and usually works pretty well, but it is not able to find annotations of the following form:
 
 - street names without house numbers (e.g. [_“Sullivan Street”_](http://spacetime.nypl.org/tagmap/#/elaine-mobray-cdgxj0_ann_69_71)) — **SKIP** those items
 - intersections (e.g. _“5th Ave and 42nd St”_) — **SKIP** those items
 
 Other issues:
 
-- it is not possible yet to move the map and submit the new position of the map
+- it is not possible yet to move the map and do a geographic search based on the new position of the map.
 
 ### Examples
 
