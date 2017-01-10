@@ -31,20 +31,6 @@
   content: ' …”';
 }
 
-.iframe {
-  height: 80px;
-  margin-bottom: 1em;
-
-  background-color: #FFDC03;
-  border-radius: 10px;
-  border-color: #7F6E02;
-  border-width: 2px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .iframe-container {
   height: 80px;
 }
