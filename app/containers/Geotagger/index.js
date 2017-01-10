@@ -38,9 +38,6 @@ export class Geotagger extends React.Component {
 
     const url = this.props.item.data.url
     const embedUrl = url.replace('#', '/embed#')
-    console.log(embedUrl)
-    // "http://oralhistory.nypl.org/interviews/constance-sutton-h2e3wj#00:00:19"
-    // http://oralhistory.nypl.org/interviews/chris-billias-uo5g3f/embed#1:00
 
     return (
       <div className={styles.container} key={`${this.props.item.organization.id}-${this.props.item.id}`}>
