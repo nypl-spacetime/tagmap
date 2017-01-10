@@ -38,7 +38,7 @@ Other issues:
 
 - it is not possible yet to move the map and do a geographic search based on the new position of the map.
 
-### Examples
+## Examples
 
 - [_“Katy Perry”_](http://spacetime.nypl.org/tagmap/#/beau-mccall-zwn9pa_ann_1456_1458): **NO**!
 - [_“Harlem”_](http://spacetime.nypl.org/tagmap/#/kathy-bristow-g6uztv_ann_17_19): **YES** — `Harlem, Manhattan, New York, NY, USA`
