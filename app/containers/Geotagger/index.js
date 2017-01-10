@@ -45,6 +45,7 @@ export class Geotagger extends React.Component {
           <h2 className={styles.title}>
             {this.props.initialSearchString}
           </h2>
+          <a href={this.props.item.data.url} target='_blank'>Open interview and transcript in new tab</a>
           <div className={styles['iframe-container']} >
             <iframe src={embedUrl} />
           </div>
