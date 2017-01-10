@@ -17,6 +17,8 @@ Below the list of geographic results, four buttons are shown:
 - **SKIP**: The annotation is a geographic place, but the search tool either didn't find the correct location, or it is unclear (even after listening to the interview) which exact location is meant.
 - **RESET**: Reset the edited search string to the original annotation
 
+**Don't spend too much time per item, it's fine to skip! This is just a first try, we can improve TAGMAP, the annotations, and the submissions later!**
+
 ## Editing incorrect annotations
 
 When annotations contain spelling errors, are formatted in a strange way, or are in face multiple annotations in one (e.g. [_“1875; Westchester Station”_](http://spacetime.nypl.org/tagmap/#/tom-vasti-t707ay_ann_4531_4533)), you can edit the search string, press enter, and pick the correct result from the list. Sometimes, it can be helpful to add _“New York”_ or _“Manhattan, USA”_ to the search string (e.g. from _“East River”_ to _“East River, Manhattan, NY”_). To reset the search string to the original annotation, click **RESET**.
