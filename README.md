@@ -6,7 +6,7 @@ See http://spacetime.nypl.org/tagmap (You need an NYPL email address to use TAGM
 
 ## Tutorial
 
-![](screenshot.png)
+![](images/screenshot.png)
 
 - **YES**: If the search result list contains the correct geographic place, select this result and click **YES**!
 - **NO**: The annotation is not a geographic place
@@ -17,7 +17,7 @@ See http://spacetime.nypl.org/tagmap (You need an NYPL email address to use TAGM
 
 When annotations contain spelling errors, are formatted in a strange way, or are in face multiple annotations in one (e.g. [_“1875; Westchester Station”_](http://spacetime.nypl.org/tagmap/#/tom-vasti-t707ay_ann_4531_4533)), you can edit the search string, press enter, and pick the correct result from the list. Sometimes, it can be helpful to add _“, New York”_ or _“, Manhattan, USA”_ to the search string (e.g. from _“East River”_ to _“East River, Manhattan, NY”_). To reset the search string to the original annotation, click **RESET**.
 
-![](edit-annotation.gif)
+![](images/edit-annotation.gif)
 
 ## Known issues
 
